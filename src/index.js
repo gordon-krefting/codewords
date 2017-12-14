@@ -6,11 +6,9 @@ import './index.css';
  *  Codewords
  *  TODO: navigate the grid
  *  TODO: save state
- *  TODO: the shaded squares
  *  TODO: variable grid values (to solve more than one puzzle)
  *  TODO: services (grep against dict; anagrammer)
  *  TODO: change simple components to functions?
- *  TODO: how about some git!
  */
 
 const gridValues = [
