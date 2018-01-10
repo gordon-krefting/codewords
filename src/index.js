@@ -27,7 +27,7 @@ const gridValues = [
   [15, 2, 3,20, 2,14, 5,10, 0,23,24,25,26],
 ];
 
-// This os ind of dumb
+// This is kind of dumb
 const shadedSquares = [
   "0,0","0,1","0,2","0,3",
   "12,9","12,10","12,11","12,12",
@@ -38,6 +38,8 @@ class Game extends React.Component {
 
   constructor(props) {
     super(props);
+
+    console.log("Starting");
 
     let codeCounts = new Map();
     for (let row of gridValues) {
@@ -75,10 +77,14 @@ class Game extends React.Component {
         </div>
         <div className="row">
           <div className="controls"><div id="clear-button" onClick={() => this.handleClearButton()}>Clear</div></div>
-          <div id="instructions">In the crossword puzzle above, every letter is represented by an integer from 1 through 26.
+          <div id="instructions">In the crossword puzzle above, every letter is represented by an integer from
+            1 through 26.
             You must decipher the code to reveal the words.<br/><br/>
             Arrange the letters in the shaded spaces to spell the final answer, an eight-letter word.
           </div>
+        </div>
+        <div className="row">
+          <MatchForm />
         </div>
       </div>
     );
@@ -278,6 +284,45 @@ class GridSquare extends React.Component {
     );
   }
 }
+
+
+
+class MatchForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    fetch('http://localhost:10010/matching_words?q='+this.state.value)
+      .then( result => result.json())
+      .then( items => alert(items));
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Match:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Match" />
+      </form>
+    );
+  }
+}
+
+
+
+
 
 ReactDOM.render(
   <Game />,
